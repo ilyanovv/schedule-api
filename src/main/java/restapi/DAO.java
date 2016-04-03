@@ -85,7 +85,7 @@ public class DAO {
                 "   \t \tSELECT group_tab.group_number, lesson_time.time_begin, lesson_time.time_end, lesson_type.lesson_type_name, lecture_room.lecture_room_number, \n" +
                 "\t\tx.discipline_id, lecture_room.building_id as bid, x.discipline_id as did\n" +
                 "\t\tFROM schedule_tab AS x\n" +
-                "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND x.group_number = ? \n" +
+                "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND group_tab.group_number = ? \n" +
                 "\t\t\tJOIN lesson_time ON lesson_time.time_id = x.time_id\n" +
                 "\t\t\tJOIN lesson_type ON lesson_type.lesson_type_id = x.lesson_type_id\n" +
                 "\t\t\tJOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
