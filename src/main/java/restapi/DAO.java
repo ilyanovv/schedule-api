@@ -7,11 +7,13 @@ import org.json.simple.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 
 /**
  * Created by Илья on 29.03.2016.
  */
+@SuppressWarnings("SqlResolve")
 public class DAO {
     private static Connection connection = null;
     private static final String
@@ -24,8 +26,17 @@ public class DAO {
     private static Connection getCon() throws ClassNotFoundException, SQLException {
         if (connection == null) {
             Class.forName("com.mysql.jdbc.Driver");
+            Properties properties=new Properties();
+            properties.setProperty("user",USERNAME);
+            properties.setProperty("password",PASSWORD);
+            /*
+            настройки указывающие о необходимости конвертировать данные из Unicode
+	        в UTF-8, который используется в нашей таблице для хранения данных
+            */
+            properties.setProperty("useUnicode","true");
+            properties.setProperty("characterEncoding","UTF-8");
             String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-            connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(url, properties);
             System.out.println("Connected to MYDB");
         }
         return connection;
