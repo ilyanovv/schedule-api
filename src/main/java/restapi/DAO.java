@@ -25,8 +25,8 @@ public class DAO {
         if (connection == null) {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-            connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
-            //connection = DriverManager.getConnection("jdbc:mysql:adminUlNAhCm@127.4.100.130/scheduledb", "adminUlNAhCm", "y4fmhUPK5iEe");
+           // connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection("jdbc:mysql:adminUlNAhCm@127.4.100.130/scheduledb", "adminUlNAhCm", "y4fmhUPK5iEe");
             System.out.println("Connected to MYDB");
         }
         return connection;
