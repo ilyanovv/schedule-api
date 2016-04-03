@@ -14,12 +14,19 @@ import java.util.ArrayList;
  */
 public class DAO {
     private static Connection connection = null;
+    private static final String
+            HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
+            PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
+            USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
+            PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
+            DB_NAME = "shifar";
 
     private static Connection getCon() throws ClassNotFoundException, SQLException {
         if (connection == null) {
             Class.forName("com.mysql.jdbc.Driver");
-            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduledb", "root", "ONElifeloveteam2015");
-            connection = DriverManager.getConnection("jdbc:mysql:adminUlNAhCm@127.4.100.130/scheduledb", "adminUlNAhCm", "y4fmhUPK5iEe");
+            String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+            connection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            //connection = DriverManager.getConnection("jdbc:mysql:adminUlNAhCm@127.4.100.130/scheduledb", "adminUlNAhCm", "y4fmhUPK5iEe");
             System.out.println("Connected to MYDB");
         }
         return connection;
