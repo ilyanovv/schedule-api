@@ -6,6 +6,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="fromcloud" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.24" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/jbossas-1.0/META-INF/MANIFEST.MF" />

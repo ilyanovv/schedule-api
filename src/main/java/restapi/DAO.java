@@ -18,7 +18,8 @@ public class DAO {
     private static Connection getCon() throws ClassNotFoundException, SQLException {
         if (connection == null) {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduledb", "root", "ONElifeloveteam2015");
+            //connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduledb", "root", "ONElifeloveteam2015");
+            connection = DriverManager.getConnection("jdbc:mysql:adminUlNAhCm@127.4.100.130/scheduledb", "adminUlNAhCm", "y4fmhUPK5iEe");
             System.out.println("Connected to MYDB");
         }
         return connection;
