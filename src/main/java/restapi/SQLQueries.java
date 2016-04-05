@@ -24,4 +24,6 @@ public class SQLQueries {
             "JOIN lesson_teacher ON did = lesson_teacher.discipline_id) AS w\n" +
             "JOIN teacher AS t ON w.teacher_id = t.teacher_id) AS a\n" +
             "ON lesson.lesson_id = a.lesson_id";
+
+    public static final String getAllGroups = "SELECT * FROM group_tab";
 }

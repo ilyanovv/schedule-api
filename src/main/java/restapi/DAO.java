@@ -109,4 +109,20 @@ public class DAO {
         return  jsonArray;
     }
 
+    @SuppressWarnings("unchecked")
+    public static JSONArray getAllGroupsJSON() throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllGroups);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("group_id", resultSet.getString("group_id"));
+            jsonObject.put("group_number", resultSet.getString("group_number"));
+            jsonObject.put("year_of_study", resultSet.getString("year_of_study"));
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
 }
