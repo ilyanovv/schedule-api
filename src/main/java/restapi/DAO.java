@@ -87,7 +87,7 @@ public class DAO {
         Connection c = getCon();
         JSONArray jsonArray = new JSONArray();
         String groupNumber = "8О-408Б";
-        PreparedStatement ps = c.prepareStatement("SELECT w.group_number, w.time_begin, w.time_end, w.lesson_type_name, w.lecture_room_number, \n" +
+        /*PreparedStatement ps = c.prepareStatement("SELECT w.group_number, w.time_begin, w.time_end, w.lesson_type_name, w.lecture_room_number, \n" +
                 "\t\tw.building_name, t.last_name, t.first_name, t.patronymic_name FROM (\n" +
                 "\tSELECT z.group_number, z.time_begin, z.time_end, z.lesson_type_name, z.lecture_room_number, \n" +
                 "\t\tdid, z.building_name, lesson_teacher.teacher_id FROM (\t\n" +
@@ -102,7 +102,8 @@ public class DAO {
                 "\t\t\tJOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
                 "\tJOIN building ON bid = building.building_id) AS z \n" +
                 "JOIN lesson_teacher ON did = lesson_teacher.discipline_id) AS w\n" +
-                "JOIN teacher AS t ON w.teacher_id = t.teacher_id");
+                "JOIN teacher AS t ON w.teacher_id = t.teacher_id");*/
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForGroup);
         ps.setString(1, groupNumber);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
