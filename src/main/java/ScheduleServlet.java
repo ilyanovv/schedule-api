@@ -20,7 +20,7 @@ public class ScheduleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-           // request.setCharacterEncoding("ISO-8859-1");
+            request.setCharacterEncoding("URL-encoded");
             String groupNumber = request.getParameter("groupNumber");
             System.err.println(groupNumber);
             //String groupNumber = new String(groupNumber1.getBytes("ISO-8859-1"), "utf-8");
