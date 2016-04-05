@@ -20,12 +20,13 @@ public class ScheduleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String arr = DAO.getScheduleJSON().toString();
+            String groupNumber = request.getParameter("groupNumber");
+            String arr = DAO.getScheduleJSON(groupNumber).toString();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             PrintWriter out = response.getWriter();
             out.print(arr);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException  | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }
     }
