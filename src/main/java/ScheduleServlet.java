@@ -21,7 +21,7 @@ public class ScheduleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String groupNumber = request.getParameter("groupNumber");
-            groupNumber = java.net.URLDecoder.decode(groupNumber, "utf-8");
+            groupNumber = "8О-408Б";
             //String groupNumber = new String(groupNumber1.getBytes("ISO-8859-1"), "utf-8");
             System.err.println(groupNumber);
 
