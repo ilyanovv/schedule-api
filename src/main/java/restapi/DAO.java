@@ -81,15 +81,15 @@ public class DAO {
     }
 
     @SuppressWarnings("unchecked")
-    public static JSONArray getScheduleJSON(final String groupNumber)
+    public static JSONArray getScheduleJSON(final String groupID)
             throws SQLException, ClassNotFoundException
     {
         Connection c = getCon();
         JSONArray jsonArray = new JSONArray();
        // String groupNumber = "8О-408Б";
         PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForGroup);
-        System.err.println(groupNumber);
-        ps.setString(1, groupNumber);
+        System.err.println(groupID);
+        ps.setString(1, groupID);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
         {
