@@ -88,6 +88,7 @@ public class DAO {
         JSONArray jsonArray = new JSONArray();
        // String groupNumber = "8О-408Б";
         PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForGroup);
+        System.err.println(groupNumber);
         ps.setString(1, groupNumber);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
