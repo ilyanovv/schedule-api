@@ -20,12 +20,10 @@ public class ScheduleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            request.setCharacterEncoding("cp1251");
+            request.setCharacterEncoding("utf-8");
             String groupNumber1 = request.getParameter("groupNumber");
             System.err.println(groupNumber1);
-            String groupNumber = new String(groupNumber1.getBytes("cp1251"), "utf-8");
-            System.err.println(groupNumber);
-            groupNumber = new String(groupNumber1.getBytes("cp1251"), "unicode");
+            String groupNumber = new String(groupNumber1.getBytes("utf-8"), "unicode");
             System.err.println(groupNumber);
 
             String arr = DAO.getScheduleJSON(groupNumber).toString();
