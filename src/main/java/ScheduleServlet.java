@@ -20,7 +20,8 @@ public class ScheduleServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String groupNumber = new String(request.getParameter("groupNumber").getBytes("ISO-8859-1"), "utf-8");
+            request.setCharacterEncoding("cp1251");
+            String groupNumber = request.getParameter("groupNumber");
             String arr = DAO.getScheduleJSON(groupNumber).toString();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
