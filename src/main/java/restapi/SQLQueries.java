@@ -25,5 +25,7 @@ public class SQLQueries {
             "JOIN teacher AS t ON w.teacher_id = t.teacher_id) AS a\n" +
             "ON lesson.lesson_id = a.lesson_id";
 
-    public static final String getAllGroups = "SELECT * FROM group_tab";
+    public static final String getAllGroups = "SELECT * \n" +
+            "FROM group_tab x\n" +
+            "JOIN schedule_version_group y ON x.group_id = y.group_id";
 }

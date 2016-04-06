@@ -120,6 +120,7 @@ public class DAO {
             jsonObject.put("group_id", resultSet.getString("group_id"));
             jsonObject.put("group_number", resultSet.getString("group_number"));
             jsonObject.put("year_of_study", resultSet.getString("year_of_study"));
+            jsonObject.put("version", resultSet.getString("version"));
             jsonArray.add(jsonObject);
         }
         return jsonArray;
