@@ -23,7 +23,8 @@ class SQLQueries {
             "\tJOIN building ON bid = building.building_id) AS z \n" +
             "JOIN lesson_teacher ON did = lesson_teacher.discipline_id) AS w\n" +
             "JOIN teacher AS t ON w.teacher_id = t.teacher_id) AS a\n" +
-            "ON lesson.lesson_id = a.lesson_id";
+            "ON lesson.lesson_id = a.lesson_id " +
+            "ORDER BY lesson_date, time_begin";
 
     static final String getAllGroups = "SELECT * \n" +
             "FROM group_tab x\n" +
