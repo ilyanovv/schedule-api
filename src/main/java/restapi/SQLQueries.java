@@ -29,4 +29,8 @@ class SQLQueries {
     static final String getAllGroups = "SELECT * \n" +
             "FROM group_tab x\n" +
             "JOIN schedule_version_group y ON x.group_id = y.group_id";
+
+    static final String getGetAllTeachers = "SELECT * FROM teacher x \n" +
+            "JOIN schedule_version_teacher y \n" +
+            "ON x.teacher_id = y.teacher_id";
 }

@@ -127,4 +127,22 @@ public class DAO {
         return jsonArray;
     }
 
+    @SuppressWarnings("unchecked")
+    public static JSONArray getAllTeachersJSON() throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getGetAllTeachers);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("teacher_id", resultSet.getString("teacher_id"));
+            jsonObject.put("last_name", resultSet.getString("last_name"));
+            jsonObject.put("first_name", resultSet.getString("first_name"));
+            jsonObject.put("patronymic_name", resultSet.getString("patronymic_name"));
+            jsonObject.put("version", resultSet.getString("version"));
+            jsonArray.add(jsonObject);
+        }
+        return  jsonArray;
+    }
+
 }
