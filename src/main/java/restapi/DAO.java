@@ -94,6 +94,7 @@ public class DAO {
         while (resultSet.next())
         {
             JSONObject resultJson = new JSONObject();
+            resultJson.put("record_id", resultSet.getInt("record_id"));
             resultJson.put("time_begin", resultSet.getString("time_begin"));
             resultJson.put("time_end", resultSet.getString("time_end"));
             resultJson.put("lesson_type_name", resultSet.getString("lesson_type_name"));

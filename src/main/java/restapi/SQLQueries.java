@@ -3,18 +3,18 @@ package restapi;
 /**
  * Created by Илья on 05.04.2016.
  */
-public class SQLQueries {
-    public static final String getScheduleForGroup = ""+
+class SQLQueries {
+    static final String getScheduleForGroup = ""+
             "SELECT * FROM lesson JOIN \n" +
             "(SELECT DATE_FORMAT(w.lesson_date, '%m.%d.%Y') AS lesson_date,\n" +
-            "        w.lesson_id, w.group_number, w.time_begin, w.time_end, w.lesson_type_name, w.lecture_room_number, \n" +
+            " w.record_id, w.lesson_id, w.group_number, w.time_begin, w.time_end, w.lesson_type_name, w.lecture_room_number, \n" +
             "\t\tw.building_name, t.last_name, t.first_name, t.patronymic_name FROM (\n" +
-            "\tSELECT z.lesson_date, z.group_number, z.time_begin, z.time_end, z.lesson_type_name, z.lecture_room_number, \n" +
+            "\tSELECT z.record_id, z.lesson_date, z.group_number, z.time_begin, z.time_end, z.lesson_type_name, z.lecture_room_number, \n" +
             "\t\tdid, z.building_name, lesson_teacher.teacher_id, lesson_teacher.lesson_id FROM (\t\n" +
             "\t\tSELECT y.group_number, y.time_begin, y.time_end, y.lesson_type_name, y.lecture_room_number, \n" +
-            "\t\ty.discipline_id, y.bid, building.building_name, y.did, y.lesson_date  FROM (\n" +
+            "\t\ty.discipline_id, y.record_id, y.bid, building.building_name, y.did, y.lesson_date  FROM (\n" +
             "   \t \tSELECT group_tab.group_number, lesson_time.time_begin, lesson_time.time_end, lesson_type.lesson_type_name, lecture_room.lecture_room_number, \n" +
-            "\t\tx.discipline_id, lecture_room.building_id as bid, x.discipline_id as did, x.lesson_date \n" +
+            "\t\tx.discipline_id, lecture_room.building_id as bid, x.discipline_id as did, x.lesson_date, x.record_id \n" +
             "\t\tFROM schedule_tab AS x\n" +
             "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND group_tab.group_id = ? \n" +
             "\t\t\tJOIN lesson_time ON lesson_time.time_id = x.time_id\n" +
@@ -25,7 +25,7 @@ public class SQLQueries {
             "JOIN teacher AS t ON w.teacher_id = t.teacher_id) AS a\n" +
             "ON lesson.lesson_id = a.lesson_id";
 
-    public static final String getAllGroups = "SELECT * \n" +
+    static final String getAllGroups = "SELECT * \n" +
             "FROM group_tab x\n" +
             "JOIN schedule_version_group y ON x.group_id = y.group_id";
 }
