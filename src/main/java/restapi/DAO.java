@@ -6,6 +6,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -103,7 +104,9 @@ public class DAO {
             resultJson.put("last_name", resultSet.getString("last_name"));
             resultJson.put("first_name", resultSet.getString("first_name"));
             resultJson.put("patronymic_name", resultSet.getString("patronymic_name"));
-            resultJson.put("lesson_date", resultSet.getString("lesson_date"));
+            java.util.Date date = resultSet.getDate("lesson_date");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+            resultJson.put("lesson_date", sdf.format(date));
             resultJson.put("lesson_name", resultSet.getString("lesson_name"));
             jsonArray.add(resultJson);
         }
