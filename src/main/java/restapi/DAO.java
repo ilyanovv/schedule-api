@@ -169,8 +169,10 @@ public class DAO {
                jsonGroups.add(resultSet.getString("group_number"));
             }
             else{
-                jsonObject.put("groups", jsonGroups);
-                jsonArray.add(jsonObject);
+                if(jsonObject != null) {
+                    jsonObject.put("groups", jsonGroups);
+                    jsonArray.add(jsonObject);
+                }
                 jsonObject = new JSONObject();
                 jsonGroups = new JSONArray();
                 jsonObject.put("record_id", resultSet.getInt("record_id"));
