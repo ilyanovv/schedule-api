@@ -57,6 +57,7 @@ public class DAO {
             String building_name = resultSet.getString("building_name");
             buildings_list.add(new Building(building_id, building_name));
         }
+        resultSet.close();
         return  buildings_list;
     }
 
@@ -78,6 +79,7 @@ public class DAO {
             resultJson.put("building_name", building_name);
             jsonArray.add(resultJson);
         }
+        resultSet.close();
         return  jsonArray;
     }
 
@@ -108,6 +110,7 @@ public class DAO {
             resultJson.put("lesson_name", resultSet.getString("lesson_name"));
             jsonArray.add(resultJson);
         }
+        resultSet.close();
         return  jsonArray;
     }
 
@@ -125,6 +128,7 @@ public class DAO {
             jsonObject.put("version", resultSet.getString("version"));
             jsonArray.add(jsonObject);
         }
+        resultSet.close();
         return jsonArray;
     }
 
@@ -143,6 +147,7 @@ public class DAO {
             jsonObject.put("version", resultSet.getString("version"));
             jsonArray.add(jsonObject);
         }
+        resultSet.close();
         return  jsonArray;
     }
 
@@ -159,7 +164,9 @@ public class DAO {
         String prevTimeBegin = " ";
         JSONObject jsonObject = null;
         JSONArray jsonGroups = null;
+        int i =0;
         while (resultSet.next()) {
+            i++;
             String curLessonName = resultSet.getString("lesson_name");
             String curLessonType = resultSet.getString("lesson_type_name");
             String curTimeBegin = resultSet.getString("time_begin");
@@ -184,11 +191,13 @@ public class DAO {
                 jsonObject.put("lesson_date", resultSet.getString("lesson_date"));
                 jsonObject.put("lesson_name", curLessonName);
                 jsonGroups.add(resultSet.getString("group_number"));
-                prevLessonName = curLessonName;
-                prevLessonType = curLessonType;
-                prevTimeBegin = curTimeBegin;
             }
+            prevLessonName = curLessonName;
+            prevLessonType = curLessonType;
+            prevTimeBegin = curTimeBegin;
         }
+        resultSet.close();
+        System.out.println("i = " + i);
         return jsonArray;
     }
 
