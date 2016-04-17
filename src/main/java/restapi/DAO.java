@@ -147,15 +147,45 @@ public class DAO {
     }
 
     @SuppressWarnings("unchecked")
-    public static JSONArray getTeachersScheduleJSON() throws SQLException, ClassNotFoundException {
+    public static JSONArray getTeachersScheduleJSON(final String teacherID)
+            throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
         JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("teacher_id", 1);
-        JSONArray jsonGroups = new JSONArray();
-        jsonGroups.add("80-308");
-        jsonGroups.add("80-408");
-        jsonObject.put("groups", jsonGroups);
-        jsonArray.add(jsonObject);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForTeacher);
+        ps.setString(1, teacherID);
+        ResultSet resultSet = ps.executeQuery();
+        String prevLessonName = " ";
+        String prevLessonType = " ";
+        String prevTimeBegin = " ";
+        JSONObject jsonObject = null;
+        JSONArray jsonGroups = null;
+        while (resultSet.next()) {
+            String curLessonName = resultSet.getString("lesson_name");
+            String curLessonType = resultSet.getString("lesson_type_name");
+            String curTimeBegin = resultSet.getString("time_begin");
+            if(curLessonName.equals(prevLessonName) &&
+                    curLessonType.equals(prevLessonType) &&
+                    curTimeBegin.equals(prevTimeBegin)){
+               jsonGroups.add(resultSet.getString("group_number"));
+            }
+            else{
+                jsonArray.add(jsonObject);
+                jsonObject = new JSONObject();
+                jsonGroups = new JSONArray();
+                jsonObject.put("record_id", resultSet.getInt("record_id"));
+                jsonObject.put("time_begin", curTimeBegin);
+                jsonObject.put("time_end", resultSet.getString("time_end"));
+                jsonObject.put("lesson_type_name", curLessonType);
+                jsonObject.put("lecture_room_number", resultSet.getString("lecture_room_number"));
+                jsonObject.put("building_name", resultSet.getString("building_name"));
+                jsonObject.put("lesson_date", resultSet.getString("lesson_date"));
+                jsonObject.put("lesson_name", curLessonName);
+                jsonGroups.add(resultSet.getString("group_number"));
+                prevLessonName = curLessonName;
+                prevLessonType = curLessonType;
+                prevTimeBegin = curTimeBegin;
+            }
+        }
         return jsonArray;
     }
 

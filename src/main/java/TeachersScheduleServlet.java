@@ -19,8 +19,10 @@ public class TeachersScheduleServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        String teacherID = request.getParameter("teacherID");
         try {
-            String arr = DAO.getTeachersScheduleJSON().toString();
+            String arr = DAO.getTeachersScheduleJSON(teacherID).toString();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             PrintWriter out = response.getWriter();
