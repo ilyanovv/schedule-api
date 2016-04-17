@@ -146,4 +146,17 @@ public class DAO {
         return  jsonArray;
     }
 
+    @SuppressWarnings("unchecked")
+    public static JSONArray getTeachersScheduleJSON() throws SQLException, ClassNotFoundException {
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("teacher_id", 1);
+        JSONArray jsonGroups = new JSONArray();
+        jsonGroups.add("80-308");
+        jsonGroups.add("80-408");
+        jsonObject.put("groups", jsonGroups);
+        jsonArray.add(jsonObject);
+        return jsonArray;
+    }
+
 }
