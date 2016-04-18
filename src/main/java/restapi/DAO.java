@@ -162,6 +162,7 @@ public class DAO {
         String prevLessonName = " ";
         String prevLessonType = " ";
         String prevTimeBegin = " ";
+        String prevLessonDate = " ";
         JSONObject jsonObject = null;
         JSONArray jsonGroups = null;
         int i =0;
@@ -170,9 +171,11 @@ public class DAO {
             String curLessonName = resultSet.getString("lesson_name");
             String curLessonType = resultSet.getString("lesson_type_name");
             String curTimeBegin = resultSet.getString("time_begin");
+            String curLessonDate = resultSet.getString("lesson_date");
             if(curLessonName.equals(prevLessonName) &&
                     curLessonType.equals(prevLessonType) &&
-                    curTimeBegin.equals(prevTimeBegin)){
+                    curTimeBegin.equals(prevTimeBegin) &&
+                    curLessonDate.equals(prevLessonDate)){
                jsonGroups.add(resultSet.getString("group_number"));
             }
             else{
@@ -182,19 +185,19 @@ public class DAO {
                 }
                 jsonObject = new JSONObject();
                 jsonGroups = new JSONArray();
-                jsonObject.put("record_id", resultSet.getInt("record_id"));
                 jsonObject.put("time_begin", curTimeBegin);
                 jsonObject.put("time_end", resultSet.getString("time_end"));
                 jsonObject.put("lesson_type_name", curLessonType);
                 jsonObject.put("lecture_room_number", resultSet.getString("lecture_room_number"));
                 jsonObject.put("building_name", resultSet.getString("building_name"));
-                jsonObject.put("lesson_date", resultSet.getString("lesson_date"));
+                jsonObject.put("lesson_date", curLessonDate);
                 jsonObject.put("lesson_name", curLessonName);
                 jsonGroups.add(resultSet.getString("group_number"));
             }
             prevLessonName = curLessonName;
             prevLessonType = curLessonType;
             prevTimeBegin = curTimeBegin;
+            prevLessonDate = curLessonDate;
         }
         resultSet.close();
         System.out.println("i = " + i);
