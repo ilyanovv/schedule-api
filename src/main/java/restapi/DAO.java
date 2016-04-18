@@ -172,6 +172,7 @@ public class DAO {
             String curLessonType = resultSet.getString("lesson_type_name");
             String curTimeBegin = resultSet.getString("time_begin");
             String curLessonDate = resultSet.getString("lesson_date");
+            System.out.println("cur_date =" + curLessonDate + " , prev_date = " + prevLessonDate);
             if(curLessonName.equals(prevLessonName) &&
                     curLessonType.equals(prevLessonType) &&
                     curTimeBegin.equals(prevTimeBegin) &&
