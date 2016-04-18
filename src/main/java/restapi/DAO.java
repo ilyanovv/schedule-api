@@ -166,39 +166,41 @@ public class DAO {
         JSONObject jsonObject = null;
         JSONArray jsonGroups = null;
         int i =0;
-        while (resultSet.next()) {
-            i++;
-            String curLessonName = resultSet.getString("lesson_name");
-            String curLessonType = resultSet.getString("lesson_type_name");
-            String curTimeBegin = resultSet.getString("time_begin");
-            String curLessonDate = resultSet.getString("lesson_date");
-            System.out.println("cur_date =" + curLessonDate + " , prev_date = " + prevLessonDate);
-            if(curLessonName.equals(prevLessonName) &&
-                    curLessonType.equals(prevLessonType) &&
-                    curTimeBegin.equals(prevTimeBegin) &&
-                    curLessonDate.equals(prevLessonDate)){
-               jsonGroups.add(resultSet.getString("group_number"));
-            }
-            else{
-                if(jsonObject != null) {
-                    jsonObject.put("groups", jsonGroups);
-                    jsonArray.add(jsonObject);
+        if(resultSet.next()) {
+            do {
+                i++;
+                String curLessonName = resultSet.getString("lesson_name");
+                String curLessonType = resultSet.getString("lesson_type_name");
+                String curTimeBegin = resultSet.getString("time_begin");
+                String curLessonDate = resultSet.getString("lesson_date");
+                System.out.println("cur_date =" + curLessonDate + " , prev_date = " + prevLessonDate);
+                if (curLessonName.equals(prevLessonName) &&
+                        curLessonType.equals(prevLessonType) &&
+                        curTimeBegin.equals(prevTimeBegin) &&
+                        curLessonDate.equals(prevLessonDate)) {
+                    jsonGroups.add(resultSet.getString("group_number"));
+                } else {
+                    if (jsonObject != null) {
+                        jsonObject.put("groups", jsonGroups);
+                        jsonArray.add(jsonObject);
+                    }
+                    jsonObject = new JSONObject();
+                    jsonGroups = new JSONArray();
+                    jsonObject.put("time_begin", curTimeBegin);
+                    jsonObject.put("time_end", resultSet.getString("time_end"));
+                    jsonObject.put("lesson_type_name", curLessonType);
+                    jsonObject.put("lecture_room_number", resultSet.getString("lecture_room_number"));
+                    jsonObject.put("building_name", resultSet.getString("building_name"));
+                    jsonObject.put("lesson_date", curLessonDate);
+                    jsonObject.put("lesson_name", curLessonName);
+                    jsonGroups.add(resultSet.getString("group_number"));
                 }
-                jsonObject = new JSONObject();
-                jsonGroups = new JSONArray();
-                jsonObject.put("time_begin", curTimeBegin);
-                jsonObject.put("time_end", resultSet.getString("time_end"));
-                jsonObject.put("lesson_type_name", curLessonType);
-                jsonObject.put("lecture_room_number", resultSet.getString("lecture_room_number"));
-                jsonObject.put("building_name", resultSet.getString("building_name"));
-                jsonObject.put("lesson_date", curLessonDate);
-                jsonObject.put("lesson_name", curLessonName);
-                jsonGroups.add(resultSet.getString("group_number"));
+                prevLessonName = curLessonName;
+                prevLessonType = curLessonType;
+                prevTimeBegin = curTimeBegin;
+                prevLessonDate = curLessonDate;
             }
-            prevLessonName = curLessonName;
-            prevLessonType = curLessonType;
-            prevTimeBegin = curTimeBegin;
-            prevLessonDate = curLessonDate;
+            while (resultSet.next());
         }
         resultSet.close();
         System.out.println("i = " + i);
