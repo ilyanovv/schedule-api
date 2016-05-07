@@ -38,8 +38,8 @@ class SQLQueries {
             "SELECT * FROM lesson JOIN \n" +
             "(SELECT DATE_FORMAT(w.lesson_date, '%d.%m.%Y') AS lesson_date,\n" +
             " w.record_id, w.lesson_id, w.group_number, " +
-            "TIME_FORMAT(w.time_begin,  '%H:%i' ) AS time_begin, " +
-            "TIME_FORMAT(w.time_end,  '%H:%i' ) AS time_end, w.lesson_type_name, w.lecture_room_number, \n" +
+            "TIME_FORMAT(w.time_begin, '%H:%i') AS time_begin, " +
+            "TIME_FORMAT(w.time_end, '%H:%i') AS time_end, w.lesson_type_name, w.lecture_room_number, \n" +
             "\t\tw.building_name, t.last_name, t.first_name, t.patronymic_name FROM (\n" +
             "\tSELECT z.record_id, z.lesson_date, z.group_number, z.time_begin, z.time_end, z.lesson_type_name, z.lecture_room_number, \n" +
             "\t\tdid, z.building_name, lesson_teacher.teacher_id, lesson_teacher.lesson_id FROM (\t\n" +
