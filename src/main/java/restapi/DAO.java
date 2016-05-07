@@ -20,9 +20,11 @@ public class DAO {
     private static final String
             HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
             PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
-            USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
-            PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
-            DB_NAME = "scheduledb";
+           // USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
+           // PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
+            USERNAME = "basic",
+            PASSWORD = "nVGGeUb43em2Nwuj",
+            DB_NAME = "scheduledb2";
 
     private static Connection getCon() throws ClassNotFoundException, SQLException {
         if (connection == null) {
