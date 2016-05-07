@@ -16,6 +16,7 @@ import java.util.Properties;
  */
 @SuppressWarnings("SqlResolve")
 public class DAO {
+    //TODO: создать класс соединений и пул соединений
     private static Connection connection = null;
     private static final String
             HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
