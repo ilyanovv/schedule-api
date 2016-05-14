@@ -6,7 +6,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -17,18 +16,19 @@ import java.util.Properties;
 @SuppressWarnings("SqlResolve")
 public class DAO {
     //TODO: создать класс соединений и пул соединений
-    private static Connection connection = null;
+    private static Connection basicConnection = null;
+    private static Connection extendedConnection = null;
     private static final String
             HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
             PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
            // USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
            // PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
             USERNAME = "basic",
-            PASSWORD = "nVGGeUb43em2Nwuj",
-            DB_NAME = "scheduledb2";
+            PASSWORD = "nVGGeUb43em2Nwuj";
+    public static final String DB_NAME = "scheduledb2";
 
     private static Connection getCon() throws ClassNotFoundException, SQLException {
-        if (connection == null) {
+        if (basicConnection == null) {
             Class.forName("com.mysql.jdbc.Driver");
             Properties properties=new Properties();
             properties.setProperty("user",USERNAME);
@@ -40,10 +40,31 @@ public class DAO {
             properties.setProperty("useUnicode","true");
             properties.setProperty("characterEncoding","UTF-8");
             String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-            connection = DriverManager.getConnection(url, properties);
+            basicConnection = DriverManager.getConnection(url, properties);
             System.out.println("Connected to MYDB");
+            System.out.println(url);
         }
-        return connection;
+        return basicConnection;
+    }
+
+    public static Connection getCon(final String username, final String password) throws ClassNotFoundException, SQLException {
+        if (extendedConnection == null) {
+            Class.forName("com.mysql.jdbc.Driver");
+            Properties properties=new Properties();
+            properties.setProperty("user",username);
+            properties.setProperty("password",password);
+            /*
+            настройки указывающие о необходимости конвертировать данные из Unicode
+	        в UTF-8, который используется в нашей таблице для хранения данных
+            */
+            properties.setProperty("useUnicode","true");
+            properties.setProperty("characterEncoding","UTF-8");
+            String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+            extendedConnection = DriverManager.getConnection(url, properties);
+            System.out.println(url);
+            System.out.println("Connected to MYDB - extended");
+        }
+        return extendedConnection;
     }
 
     public static ArrayList<Building> getAllBuildings()
