@@ -52,7 +52,7 @@ public class AddNewLessonServlet extends HttpServlet {
             System.out.println("affected rows: " + affRows);
             //connection.commit(); //стоит autocommit
             if (affRows > 0){
-                response.setStatus(HttpServletResponse.SC_OK);
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT); //204
              }
             connection.close();
         } catch (SQLException e) {
