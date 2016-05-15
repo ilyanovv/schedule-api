@@ -35,7 +35,23 @@ public class AddNewLessonServlet extends HttpServlet {
             java.sql.Time time_end = java.sql.Time.valueOf("10:45:00");
             int param = 0;
             String sqlCall = "{call "+ DAO.DB_NAME + ".ADD_LESSONS(?,?,?,?,?,?,?,?,?,?,?,?)}";
-            CallableStatement callableStatement = connection.prepareCall(sqlCall);
+            CallableStatement stmt = connection.prepareCall(sqlCall);
+            stmt.setString("p_last_name", last_name);
+            stmt.setString("p_first_name", first_name);
+            stmt.setString("p_patronymic_name", patronymic_name);
+            stmt.setString("p_building_name", building_name);
+            stmt.setString("p_lecture_room_number", lecture_room);
+            stmt.setString("p_lesson_type_name", lesson_type);
+            stmt.setString("p_lesson_name", lesson_name);
+            stmt.setInt("p_group_id", group_id);
+            stmt.setTime("p_time_begin", time_begin);
+            stmt.setTime("p_time_end", time_end);
+            stmt.setDate("p_lesson_date", lesson_date);
+            stmt.setInt("param", param);
+            int affRows = stmt.executeUpdate();
+            System.out.println("affected rows: " + affRows);
+            connection.commit();
+            connection.close();
 
 
 

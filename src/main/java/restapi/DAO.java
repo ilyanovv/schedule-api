@@ -17,7 +17,6 @@ import java.util.Properties;
 public class DAO {
     //TODO: создать класс соединений и пул соединений
     private static Connection basicConnection = null;
-    private static Connection extendedConnection = null;
     private static final String
             HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
             PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
@@ -48,22 +47,20 @@ public class DAO {
     }
 
     public static Connection getCon(final String username, final String password) throws ClassNotFoundException, SQLException {
-        if (extendedConnection == null) {
-            Class.forName("com.mysql.jdbc.Driver");
-            Properties properties=new Properties();
-            properties.setProperty("user",username);
-            properties.setProperty("password",password);
-            /*
-            настройки указывающие о необходимости конвертировать данные из Unicode
-	        в UTF-8, который используется в нашей таблице для хранения данных
-            */
-            properties.setProperty("useUnicode","true");
-            properties.setProperty("characterEncoding","UTF-8");
-            String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-            extendedConnection = DriverManager.getConnection(url, properties);
-            System.out.println(url);
-            System.out.println("Connected to MYDB - extended");
-        }
+        Class.forName("com.mysql.jdbc.Driver");
+        Properties properties=new Properties();
+        properties.setProperty("user",username);
+        properties.setProperty("password",password);
+        /*
+         настройки указывающие о необходимости конвертировать данные из Unicode
+	     в UTF-8, который используется в нашей таблице для хранения данных
+         */
+        properties.setProperty("useUnicode","true");
+        properties.setProperty("characterEncoding","UTF-8");
+        String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+        Connection extendedConnection = DriverManager.getConnection(url, properties);
+        System.out.println(url);
+        System.out.println("Connected to MYDB - extended");
         return extendedConnection;
     }
 
