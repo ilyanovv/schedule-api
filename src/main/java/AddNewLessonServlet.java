@@ -32,9 +32,9 @@ public class AddNewLessonServlet extends HttpServlet {
             String lesson_name = "Базы данных";
             int group_id = 1;
             java.sql.Time time_begin = java.sql.Time.valueOf("09:00:00");
-            java.sql.Time time_end = java.sql.Time.valueOf("10:45:00");
+            java.sql.Time time_end = java.sql.Time.valueOf("10:30:00");
             int param = 0;
-            String sqlCall = "{call "+ DAO.DB_NAME + ".ADD_LESSONS(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS(?,?,?,?,?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
             stmt.setString("p_last_name", last_name);
             stmt.setString("p_first_name", first_name);
@@ -50,24 +50,21 @@ public class AddNewLessonServlet extends HttpServlet {
             stmt.setInt("param", param);
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
-            connection.commit();
+            //connection.commit(); //стоит autocommit
+            if (affRows > 0){
+                response.setStatus(HttpServletResponse.SC_OK);
+             }
             connection.close();
-
-
-
-
-            String arr = "";
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
-            PrintWriter out = response.getWriter();
-            out.print(arr);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             String arr = "Error has occured. Access denied";
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             PrintWriter out = response.getWriter();
             out.print(arr);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
