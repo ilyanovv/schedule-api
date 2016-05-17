@@ -243,6 +243,7 @@ public class DAO {
             ps = c.prepareStatement(SQLQueries.getGroupDBVersion);
         ps.setString(1, ID);
         ResultSet resultSet = ps.executeQuery();
+        resultSet.first();
         jsonArray.add(resultSet.getString("version"));
         resultSet.close();
         return jsonArray;
