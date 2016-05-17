@@ -230,4 +230,21 @@ public class DAO {
         return jsonArray;
     }
 
+
+    @SuppressWarnings("unchecked")
+    public static JSONArray getDBVersion(final String userType, final String ID)
+            throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps;
+        if(userType.equals("teacher"))
+            ps = c.prepareStatement(SQLQueries.getTeacherDBVersion);
+        else
+            ps = c.prepareStatement(SQLQueries.getGroupDBVersion);
+        ps.setString(1, ID);
+        ResultSet resultSet = ps.executeQuery();
+        jsonArray.add(resultSet.getString("version"));
+        resultSet.close();
+        return jsonArray;
+    }
 }

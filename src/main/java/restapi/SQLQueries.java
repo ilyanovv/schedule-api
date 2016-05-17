@@ -59,4 +59,9 @@ class SQLQueries {
             "JOIN teacher AS t ON w.teacher_id = t.teacher_id AND w.teacher_id = ?) AS a\n" +
             "ON lesson.lesson_id = a.lesson_id " +
             "ORDER BY lesson_date, time_begin, group_number";
+
+    static final String getGroupDBVersion = "SELECT version FROM schedule_version_group WHERE group_id = ?";
+    static final String getTeacherDBVersion = "SELECT version FROM schedule_version_teacher WHERE teacher_id = ?";
+
+
 }
