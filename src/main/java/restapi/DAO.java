@@ -171,6 +171,60 @@ public class DAO {
         return  jsonArray;
     }
 
+
+    @SuppressWarnings("unchecked")
+    public static JSONArray getLessonRoomsJSON(final String buildingID) throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonRooms);
+        ps.setString(1, buildingID);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("lecture_room_id", resultSet.getString("lecture_room_id"));
+            jsonObject.put("lecture_room_number", resultSet.getString("lecture_room_number"));
+            jsonObject.put("building_id", resultSet.getString("building_id"));
+            jsonObject.put("capacity", resultSet.getString("capacity"));
+            jsonArray.add(jsonObject);
+        }
+        resultSet.close();
+        return  jsonArray;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static JSONArray getLessonsJSON(final String teacherID) throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessons);
+        ps.setString(1, teacherID);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("lesson_id", resultSet.getString("lesson_id"));
+            jsonObject.put("lesson_name", resultSet.getString("lesson_name"));
+            jsonArray.add(jsonObject);
+        }
+        resultSet.close();
+        return  jsonArray;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static JSONArray getLessonTypesJSON() throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonTypes);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("lesson_type_id", resultSet.getString("lesson_type_id"));
+            jsonObject.put("lesson_type_name", resultSet.getString("lesson_type_name"));
+            jsonArray.add(jsonObject);
+        }
+        resultSet.close();
+        return  jsonArray;
+    }
+
     @SuppressWarnings("unchecked")
     public static JSONArray getTeachersScheduleJSON(final String teacherID)
             throws SQLException, ClassNotFoundException {
