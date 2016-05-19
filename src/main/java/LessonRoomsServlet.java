@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Created by Илья on 04.04.2016.
  */
-@WebServlet(name = "ScheduleServlet", urlPatterns = "/lesson_rooms")
+@WebServlet(name = "LessonRoomsServlet", urlPatterns = "/lesson_rooms")
 public class LessonRoomsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
