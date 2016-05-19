@@ -88,8 +88,7 @@ public class DAO {
     {
         Connection c = getCon();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement("SELECT building_id, building_name " +
-                "FROM building");
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllBuildings);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
         {
