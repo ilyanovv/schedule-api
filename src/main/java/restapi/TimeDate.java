@@ -19,7 +19,7 @@ public class TimeDate {
         int h = Integer.parseInt(str.substring(0, 1));
         int m = Integer.parseInt(str.substring(2, 3));
         int s = 0;
-        System.err.println("time = " + str);
+        System.err.println("time = " + str + " " + h + " " + m + " " + s);
         return new Time(h, m, s);
     }
 
