@@ -1,4 +1,5 @@
 import restapi.DAO;
+import restapi.TimeDate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by Илья on 15.05.2016.
@@ -41,8 +44,8 @@ public class AddNewLessonServlet extends HttpServlet {
             stmt.setString("p_lesson_type_id", request.getParameter("lesson_type_id"));
             stmt.setString("p_lecture_room_id", request.getParameter("lecture_room_id"));
             stmt.setDate("p_lesson_date", java.sql.Date.valueOf(request.getParameter("lesson_date")));
-            stmt.setTime("p_time_begin", java.sql.Time.valueOf(request.getParameter("time_begin")));
-            stmt.setTime("p_time_end", java.sql.Time.valueOf(request.getParameter("time_end")));
+            stmt.setTime("p_time_begin", TimeDate.getTime(request.getParameter("time_begin")));
+            stmt.setTime("p_time_end", TimeDate.getTime(request.getParameter("time_end")));
             stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
@@ -62,6 +65,7 @@ public class AddNewLessonServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
