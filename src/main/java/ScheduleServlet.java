@@ -23,8 +23,6 @@ public class ScheduleServlet extends HttpServlet {
             request.setCharacterEncoding("utf-8");
             String groupID = request.getParameter("groupID");
             //String groupNumber = new String(groupNumber1.getBytes("ISO-8859-1"), "utf-8");
-            System.err.println(groupID);
-            System.err.println("IN schedule");
 
             String arr = DAO.getScheduleJSON(groupID).toString();
             response.setContentType("application/json");

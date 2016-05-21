@@ -16,8 +16,8 @@ public class TimeDate {
         String ret ="";
         ret += cs.charAt(0) + cs.charAt(1) + ":" + cs.charAt(2) + cs.charAt(3) + ":00";
         return  Time.valueOf(ret);*/
-        int h = Integer.parseInt(str.substring(0, 1));
-        int m = Integer.parseInt(str.substring(2, 3));
+        int h = Integer.parseInt(str.substring(0, 2));
+        int m = Integer.parseInt(str.substring(2, 4));
         int s = 0;
         System.err.println("time = " + str + " " + h + " " + m + " " + s);
         return new Time(h, m, s);
