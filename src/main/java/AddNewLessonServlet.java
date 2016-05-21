@@ -43,7 +43,7 @@ public class AddNewLessonServlet extends HttpServlet {
             stmt.setString("p_discipline_id", request.getParameter("discipline_id"));
             stmt.setString("p_lesson_type_id", request.getParameter("lesson_type_id"));
             stmt.setString("p_lecture_room_id", request.getParameter("lecture_room_id"));
-            stmt.setDate("p_lesson_date", java.sql.Date.valueOf(request.getParameter("lesson_date")));
+            stmt.setDate("p_lesson_date", TimeDate.getDate(request.getParameter("lesson_date")));
             stmt.setTime("p_time_begin", TimeDate.getTime(request.getParameter("time_begin")));
             stmt.setTime("p_time_end", TimeDate.getTime(request.getParameter("time_end")));
             stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
