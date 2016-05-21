@@ -200,7 +200,7 @@ public class DAO {
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("lesson_id", resultSet.getString("lesson_id"));
+            jsonObject.put("discipline_id", resultSet.getString("discipline_id"));
             jsonObject.put("lesson_name", resultSet.getString("lesson_name"));
             jsonArray.add(jsonObject);
         }

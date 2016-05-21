@@ -63,6 +63,6 @@ class SQLQueries {
 
     static final String getAllBuildings = "SELECT * FROM building";
     static final String getLessonRooms = "SELECT * FROM lecture_room WHERE building_id = ?";
-    static final String getLessons = "SELECT * FROM lesson WHERE lesson_id IN (SELECT lesson_id FROM lesson_teacher WHERE teacher_id = ?)";
+    static final String getLessons = "SELECT * FROM lesson_teacher x JOIN lesson y ON x.lesson_id = y.lesson_id WHERE teacher_id = ?";
     static final String getLessonTypes = "SELECT * FROM lesson_type";
 }
