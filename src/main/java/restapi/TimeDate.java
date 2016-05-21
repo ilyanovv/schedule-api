@@ -14,7 +14,7 @@ public class TimeDate {
             return null;
         CharSequence cs = str;
         String ret ="";
-        ret += cs.charAt(0) + cs.charAt(1) + ':' + cs.charAt(2) + cs.charAt(3) + ":00";
+        ret += cs.charAt(0) + cs.charAt(1) + ":" + cs.charAt(2) + cs.charAt(3) + ":00";
         return  Time.valueOf(ret);
     }
 
