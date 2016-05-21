@@ -37,7 +37,7 @@ public class AddNewLessonServlet extends HttpServlet {
             java.sql.Time time_begin = java.sql.Time.valueOf("09:00:00");
             java.sql.Time time_end = java.sql.Time.valueOf("10:30:00");
             int param = 0;*/
-            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS_ID(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS_ID(?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
             stmt.setString("p_group_id", request.getParameter("group_id"));
             stmt.setString("p_discipline_id", request.getParameter("discipline_id"));
