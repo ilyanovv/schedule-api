@@ -22,7 +22,7 @@ public class AddNewLessonServlet extends HttpServlet {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             Connection connection = DAO.getCon(login, password);
-            java.sql.Date lesson_date = java.sql.Date.valueOf("2016-05-15"); //yyyy-mm-dd
+            /*java.sql.Date lesson_date = java.sql.Date.valueOf("2016-05-15"); //yyyy-mm-dd
             String last_name = "Лукин";
             String first_name = "Владимир";
             String patronymic_name = "Николаевич";
@@ -33,21 +33,17 @@ public class AddNewLessonServlet extends HttpServlet {
             int group_id = 1;
             java.sql.Time time_begin = java.sql.Time.valueOf("09:00:00");
             java.sql.Time time_end = java.sql.Time.valueOf("10:30:00");
-            int param = 0;
-            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS(?,?,?,?,?,?,?,?,?,?,?,?)}";
+            int param = 0;*/
+            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS_ID(?,?,?,?,?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
-            stmt.setString("p_last_name", last_name);
-            stmt.setString("p_first_name", first_name);
-            stmt.setString("p_patronymic_name", patronymic_name);
-            stmt.setString("p_building_name", building_name);
-            stmt.setString("p_lecture_room_number", lecture_room);
-            stmt.setString("p_lesson_type_name", lesson_type);
-            stmt.setString("p_lesson_name", lesson_name);
-            stmt.setInt("p_group_id", group_id);
-            stmt.setTime("p_time_begin", time_begin);
-            stmt.setTime("p_time_end", time_end);
-            stmt.setDate("p_lesson_date", lesson_date);
-            stmt.setInt("param", param);
+            stmt.setString("p_group_id", request.getParameter("group_id"));
+            stmt.setString("p_discipline_id", request.getParameter("discipline_id"));
+            stmt.setString("p_lesson_type_id", request.getParameter("lesson_type_id"));
+            stmt.setString("p_lecture_room_id", request.getParameter("lecture_room_id"));
+            stmt.setDate("p_lesson_date", java.sql.Date.valueOf(request.getParameter("lesson_date")));
+            stmt.setTime("p_time_begin", java.sql.Time.valueOf(request.getParameter("time_begin")));
+            stmt.setTime("p_time_end", java.sql.Time.valueOf(request.getParameter("time_end")));
+            stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
             //connection.commit(); //стоит autocommit
