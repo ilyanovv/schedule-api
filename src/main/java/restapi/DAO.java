@@ -267,6 +267,7 @@ public class DAO {
                 jsonObject.put("building_name", resultSet.getString("building_name"));
                 jsonObject.put("lesson_date", curLessonDate);
                 jsonObject.put("lesson_name", curLessonName);
+                jsonObject.put("record_id", resultSet.getString("record_id"));
                 jsonGroups.add(resultSet.getString("group_number"));
             }
             prevLessonName = curLessonName;
