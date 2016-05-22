@@ -11,29 +11,27 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Илья on 15.05.2016.
  */
-@WebServlet(name = "AddNewLessonServlet", urlPatterns = "/add_new_lesson")
-public class AddNewLessonServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet(name = "UpdateLessonServlet", urlPatterns = "/update_lesson")
+public class UpdateLessonServlet extends HttpServlet {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             Connection connection = DAO.getCon(login, password);
-            String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS_ID(?,?,?,?,?,?,?,?)}";
+            String sqlCall = "{call " + DAO.DB_NAME + ".UPDATE_LESSONS_ID(?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
-            stmt.setString("p_group_id", request.getParameter("group_id"));
-            stmt.setString("p_discipline_id", request.getParameter("discipline_id"));
-            stmt.setString("p_lesson_type_id", request.getParameter("lesson_type_id"));
-            stmt.setString("p_lecture_room_id", request.getParameter("lecture_room_id"));
-            stmt.setDate("p_lesson_date", TimeDate.getDate(request.getParameter("lesson_date")));
-            stmt.setTime("p_time_begin", TimeDate.getTime(request.getParameter("time_begin")));
-            stmt.setTime("p_time_end", TimeDate.getTime(request.getParameter("time_end")));
+            stmt.setString("p_record_id", request.getParameter("record_id"));
+            stmt.setString("new_discipline_id", request.getParameter("discipline_id"));
+            stmt.setString("new_lesson_type_id", request.getParameter("lesson_type_id"));
+            stmt.setString("new_lecture_room_id", request.getParameter("lecture_room_id"));
+            stmt.setDate("new_lesson_date", TimeDate.getDate(request.getParameter("lesson_date")));
+            stmt.setTime("new_time_begin", TimeDate.getTime(request.getParameter("time_begin")));
+            stmt.setTime("new_time_end", TimeDate.getTime(request.getParameter("time_end")));
             stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
