@@ -19,6 +19,7 @@ import java.sql.SQLException;
 public class UpdateLessonServlet extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            System.out.println("IN LESSON UPDATE");
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
