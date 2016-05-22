@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 @WebServlet(name = "UpdateLessonServlet", urlPatterns = "/update_lesson")
 public class UpdateLessonServlet extends HttpServlet {
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             System.out.println("IN LESSON UPDATE");
             request.setCharacterEncoding("utf-8");
