@@ -25,7 +25,7 @@ public class DeleteLessonServlet extends HttpServlet {
             Connection connection = DAO.getCon(login, password);
             String sqlCall = "{call " + DAO.DB_NAME + ".DELETE_LESSONS_ID(?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
-            stmt.setString("p_group_id", request.getParameter("group_id"));
+            stmt.setString("p_record_id", request.getParameter("record_id"));
             stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
