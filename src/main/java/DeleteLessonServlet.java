@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 @WebServlet(name = "DeleteLessonServlet", urlPatterns = "/delete_lesson")
 public class DeleteLessonServlet extends HttpServlet {
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
