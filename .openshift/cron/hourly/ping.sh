@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rhc app-restart
+
 PATH=/bin:/usr/bin:/usr/sbin
 app_url=http://$OPENSHIFT_APP_DNS/
 

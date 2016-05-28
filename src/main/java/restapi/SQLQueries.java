@@ -61,8 +61,12 @@ class SQLQueries {
     static final String getGroupDBVersion = "SELECT version FROM schedule_version_group WHERE group_id = ?";
     static final String getTeacherDBVersion = "SELECT version FROM schedule_version_teacher WHERE teacher_id = ?";
 
-    static final String getAllBuildings = "SELECT * FROM building";
-    static final String getLessonRooms = "SELECT * FROM lecture_room WHERE building_id = ?";
-    static final String getLessons = "SELECT * FROM lesson_teacher x JOIN lesson y ON x.lesson_id = y.lesson_id WHERE teacher_id = ?";
+    static final String getAllBuildings = "SELECT * FROM building ORDER BY building_name";
+    static final String getLessonRooms = "SELECT * FROM lecture_room WHERE building_id = ? ORDER BY lecture_room_number";
+  //  static final String getLessons = "SELECT * FROM lesson_teacher x JOIN lesson y ON x.lesson_id = y.lesson_id WHERE teacher_id = ?";
     static final String getLessonTypes = "SELECT * FROM lesson_type";
+
+    static final String getAllLessons = "SELECT * FROM lesson ORDER BY lesson_name";
+    static final String getTeachers = "SELECT * FROM lesson_teacher x JOIN teacher y ON x.teacher_id = y.teacher_id " +
+            "WHERE lesson_id = ? ORDER BY last_name";
 }

@@ -12,8 +12,8 @@ import java.sql.SQLException;
 /**
  * Created by Илья on 04.04.2016.
  */
-@WebServlet(name = "LessonsServlet", urlPatterns = "/lessons")
-public class LessonsServlet extends HttpServlet {
+@WebServlet(name = "LessonTeacherServlet", urlPatterns = "/lesson_teacher")
+public class LessonTeacherServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -21,7 +21,8 @@ public class LessonsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("utf-8");
-            String arr = DAO.getLessonsJSON().toString();
+            String lessonID = request.getParameter("lessonID");
+            String arr = DAO.getLessonTeacherJSON(lessonID).toString();
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             PrintWriter out = response.getWriter();

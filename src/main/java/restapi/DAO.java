@@ -192,16 +192,35 @@ public class DAO {
     }
 
     @SuppressWarnings("unchecked")
-    public static JSONArray getLessonsJSON(final String teacherID) throws SQLException, ClassNotFoundException {
+    public static JSONArray getLessonsJSON() throws SQLException, ClassNotFoundException {
         Connection c = getCon();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessons);
-        ps.setString(1, teacherID);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllLessons);
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("lesson_id", resultSet.getString("lesson_id"));
+            jsonObject.put("lesson_name", resultSet.getString("lesson_name"));
+            jsonArray.add(jsonObject);
+        }
+        resultSet.close();
+        return  jsonArray;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static JSONArray getLessonTeacherJSON(final String lessonID) throws SQLException, ClassNotFoundException {
+        Connection c = getCon();
+        JSONArray jsonArray = new JSONArray();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.getTeachers);
+        ps.setString(1, lessonID);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("discipline_id", resultSet.getString("discipline_id"));
-            jsonObject.put("lesson_name", resultSet.getString("lesson_name"));
+            jsonObject.put("teacher_id", resultSet.getString("teacher_id"));
+            jsonObject.put("last_name", resultSet.getString("last_name"));
+            jsonObject.put("first_name", resultSet.getString("first_name"));
+            jsonObject.put("patronymic_name", resultSet.getString("patronymic_name"));
             jsonArray.add(jsonObject);
         }
         resultSet.close();
