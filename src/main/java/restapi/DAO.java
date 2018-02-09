@@ -38,7 +38,8 @@ public class DAO {
             */
             properties.setProperty("useUnicode","true");
             properties.setProperty("characterEncoding","UTF-8");
-            String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+            //String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+            String url = "jdbc:mysql://scheduledb:3306/sampledb";
             basicConnection = DriverManager.getConnection(url, properties);
             System.out.println("Connected to MYDB");
             System.out.println(url);
