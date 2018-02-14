@@ -22,7 +22,7 @@ public class DeleteLessonServlet extends HttpServlet {
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
-            Connection connection = DAO.getCon(login, password);
+            Connection connection = DAO.getConnection(login, password);
             String sqlCall = "{call " + DAO.DB_NAME + ".DELETE_LESSONS_ID(?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
             stmt.setString("p_record_id", request.getParameter("record_id"));

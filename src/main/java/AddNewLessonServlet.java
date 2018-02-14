@@ -24,7 +24,7 @@ public class AddNewLessonServlet extends HttpServlet {
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
-            Connection connection = DAO.getCon(login, password);
+            Connection connection = DAO.getConnection(login, password);
             String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS_ID(?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
             stmt.setString("p_group_id", request.getParameter("group_id"));

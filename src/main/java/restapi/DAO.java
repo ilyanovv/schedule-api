@@ -2,8 +2,12 @@ package restapi;
 
 
 
+import connection.DBConnection;
+import connection.context.Context;
+import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.context.ApplicationContext;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,60 +19,55 @@ import java.util.Properties;
  */
 @SuppressWarnings("SqlResolve")
 public class DAO {
+    private static ApplicationContext context = Context.getContext();
+    private static DBConnection dbConnection = context.getBean(DBConnection.class);
+
+    public static final String DB_NAME = "schedule";
+    public static Connection getConnection() throws SQLException, ClassNotFoundException {
+        return dbConnection.getConnection();
+    }
+    public static Connection getConnection(final String username, final String password)
+            throws SQLException, ClassNotFoundException {
+        return dbConnection.getConnection(username, password);
+    }
+
     //TODO: создать класс соединений и пул соединений
-    private static Connection basicConnection = null;
-    private static final String
-            HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
-            PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
-           // USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
-           // PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
-            USERNAME = "root",
-            PASSWORD = "root";
-    public static final String DB_NAME = "scheduledb2";
+//    private static final String
+//            HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
+//            PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
+//           // USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
+//           // PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
+//            USERNAME = "root",
+//            PASSWORD = "root";
+//    public static final String DB_NAME = "scheduledb2";
 
-    private static Connection getCon() throws ClassNotFoundException, SQLException {
-        if (basicConnection == null) {
-            Class.forName("com.mysql.jdbc.Driver");
-            Properties properties=new Properties();
-            properties.setProperty("user",USERNAME);
-            properties.setProperty("password",PASSWORD);
-            /*
-            настройки указывающие о необходимости конвертировать данные из Unicode
-	        в UTF-8, который используется в нашей таблице для хранения данных
-            */
-            properties.setProperty("useUnicode","true");
-            properties.setProperty("characterEncoding","UTF-8");
-            //String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-            String url = "jdbc:mysql://mysql:3306/sampledb";
-            basicConnection = DriverManager.getConnection(url, properties);
-            System.out.println("Connected to MYDB");
-            System.out.println(url);
-        }
-        return basicConnection;
-    }
+//    private static Connection getCon() throws ClassNotFoundException, SQLException {
+//        if (basicConnection == null) {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Properties properties=new Properties();
+//            properties.setProperty("user",USERNAME);
+//            properties.setProperty("password",PASSWORD);
+//            /*
+//            настройки указывающие о необходимости конвертировать данные из Unicode
+//	        в UTF-8, который используется в нашей таблице для хранения данных
+//            */
+//            properties.setProperty("useUnicode","true");
+//            properties.setProperty("characterEncoding","UTF-8");
+//            //String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
+//            String url = "jdbc:mysql://mysql:3306/sampledb";
+//            basicConnection = DriverManager.getConnection(url, properties);
+//            System.out.println("Connected to MYDB");
+//            System.out.println(url);
+//        }
+//        return basicConnection;
+//    }
 
-    public static Connection getCon(final String username, final String password) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Properties properties=new Properties();
-        properties.setProperty("user",username);
-        properties.setProperty("password",password);
-        /*
-         настройки указывающие о необходимости конвертировать данные из Unicode
-	     в UTF-8, который используется в нашей таблице для хранения данных
-         */
-        properties.setProperty("useUnicode","true");
-        properties.setProperty("characterEncoding","UTF-8");
-        String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-        Connection extendedConnection = DriverManager.getConnection(url, properties);
-        System.out.println(url);
-        System.out.println("Connected to MYDB - extended");
-        return extendedConnection;
-    }
+
 
     public static ArrayList<Building> getAllBuildings()
             throws SQLException, ClassNotFoundException
     {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         ArrayList<Building> buildings_list = new ArrayList<Building>();
         PreparedStatement ps = c.prepareStatement("SELECT building_id, building_name " +
            "FROM building");
@@ -87,7 +86,7 @@ public class DAO {
     public static JSONArray getAllBuildingsJSON()
             throws SQLException, ClassNotFoundException
     {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getAllBuildings);
         ResultSet resultSet = ps.executeQuery();
@@ -108,7 +107,7 @@ public class DAO {
     public static JSONArray getScheduleJSON(final String groupID)
             throws SQLException, ClassNotFoundException
     {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
        // String groupNumber = "8О-408Б";
         PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForGroup);
@@ -137,7 +136,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getAllGroupsJSON() throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getAllGroups);
         ResultSet resultSet = ps.executeQuery();
@@ -155,7 +154,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getAllTeachersJSON() throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getGetAllTeachers);
         ResultSet resultSet = ps.executeQuery();
@@ -175,7 +174,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getLessonRoomsJSON(final String buildingID) throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonRooms);
         ps.setString(1, buildingID);
@@ -194,7 +193,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getLessonsJSON() throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getAllLessons);
         ResultSet resultSet = ps.executeQuery();
@@ -210,7 +209,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getLessonTeacherJSON(final String lessonID) throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getTeachers);
         ps.setString(1, lessonID);
@@ -231,7 +230,7 @@ public class DAO {
 
     @SuppressWarnings("unchecked")
     public static JSONArray getLessonTypesJSON() throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonTypes);
         ResultSet resultSet = ps.executeQuery();
@@ -248,7 +247,7 @@ public class DAO {
     @SuppressWarnings("unchecked")
     public static JSONArray getTeachersScheduleJSON(final String teacherID)
             throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForTeacher);
         ps.setString(1, teacherID);
@@ -308,7 +307,7 @@ public class DAO {
     @SuppressWarnings("unchecked")
     public static JSONArray getDBVersion(final String userType, final String ID)
             throws SQLException, ClassNotFoundException {
-        Connection c = getCon();
+        Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps;
         if(userType.equals("teacher"))

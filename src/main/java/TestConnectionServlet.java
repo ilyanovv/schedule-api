@@ -21,7 +21,7 @@ public class TestConnectionServlet extends HttpServlet {
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
-            Connection connection = DAO.getCon(login, password);
+            Connection connection = DAO.getConnection(login, password);
             //TODO: возможно, добавить какой-нибудь запрос к БД для проверки полномочий
             response.setStatus(HttpServletResponse.SC_NO_CONTENT); //204
 
