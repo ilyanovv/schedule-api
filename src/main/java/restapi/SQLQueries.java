@@ -20,6 +20,7 @@ class SQLQueries {
             "\t\tFROM schedule_tab AS x\n" +
             "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND group_tab.group_id = ? \n" +
             "\t\t\tJOIN lesson_type ON lesson_type.lesson_type_id = x.lesson_type_id\n" +
+            "\t\t\tJOIN lesson_time ON x.time_id = lesson_time.time_id\n" +
             "\t\t\tLEFT JOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
             "\tLEFT JOIN building ON bid = building.building_id) AS z \n" +
             "JOIN lesson_teacher ON did = lesson_teacher.discipline_id) AS w\n" +
@@ -51,6 +52,7 @@ class SQLQueries {
             "\t\tFROM schedule_tab AS x\n" +
             "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id\n" +
             "\t\t\tJOIN lesson_type ON lesson_type.lesson_type_id = x.lesson_type_id\n" +
+            "\t\t\tJOIN lesson_time ON x.time_id = lesson_time.time_id\n" +
             "\t\t\tLEFT JOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
             "\tLEFT JOIN building ON bid = building.building_id) AS z \n" +
             "JOIN lesson_teacher ON did = lesson_teacher.discipline_id) AS w\n" +

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class DBConfig {
     @Bean
     DBConnection dbConnection() {
-        return new OpenshiftConnection();
+        //return new OpenshiftConnection();
+        return new LocalConnection();
     }
 }
