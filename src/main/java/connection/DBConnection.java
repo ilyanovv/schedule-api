@@ -1,5 +1,6 @@
 package connection;
 
+import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
