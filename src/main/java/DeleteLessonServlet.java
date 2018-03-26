@@ -19,19 +19,23 @@ import java.sql.SQLException;
 public class DeleteLessonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            System.out.println("start DeleteLessonServlet, " +
+                    "request params = " + request.getParameterMap().values().toString());
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             Connection connection = DAO.getConnection(login, password);
-            String sqlCall = "{call " + DAO.DB_NAME + ".DELETE_LESSONS_ID(?,?)}";
+            String sqlCall = "{call " + DAO.DB_NAME + ".DELETE_LESSONS(?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
-            stmt.setString("p_record_id", request.getParameter("record_id"));
+            //FIXME : сигнатура хранимой процедуры не имеет параметра p_record_id
+            stmt.setInt("p_record_id", Integer.valueOf(request.getParameter("record_id")));
             stmt.setInt("param", Integer.valueOf(request.getParameter("param")));
             int affRows = stmt.executeUpdate();
             System.out.println("affected rows: " + affRows);
             //connection.commit(); //стоит autocommit
             if (affRows > 0){
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT); //204
+                System.out.println("finish DeleteLessonServlet successfully");
              }
             connection.close();
         } catch (SQLException e) {

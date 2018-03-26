@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 public class AddNewLessonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            System.out.println("start AddNewLessonServlet, " +
+                    "request params = " + request.getParameterMap().values().toString());
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
             String password = request.getParameter("password");
@@ -40,11 +42,12 @@ public class AddNewLessonServlet extends HttpServlet {
             //connection.commit(); //стоит autocommit
             if (affRows > 0){
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT); //204
+                System.out.println("finish AddNewLessonServlet successfully");
              }
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            String arr = "Error has occured. Access denied";
+            String arr = "Error has occurred. Access denied";
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);

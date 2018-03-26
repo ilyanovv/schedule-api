@@ -19,6 +19,8 @@ import java.sql.SQLException;
 public class UpdateLessonServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            System.out.println("start UpdateLessonServlet, " +
+                    "request params = " + request.getParameterMap().values().toString());
             System.out.println("IN LESSON UPDATE");
             request.setCharacterEncoding("utf-8");
             String login = request.getParameter("login");
@@ -39,6 +41,7 @@ public class UpdateLessonServlet extends HttpServlet {
             //connection.commit(); //стоит autocommit
             if (affRows > 0){
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT); //204
+                System.out.println("finish UpdateLessonServlet successfully");
              }
             connection.close();
         } catch (SQLException e) {

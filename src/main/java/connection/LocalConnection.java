@@ -20,7 +20,7 @@ public class LocalConnection implements DBConnection {
             InitialContext initContext= new InitialContext();
             DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/scheduleapp");
             Connection connection = ds.getConnection();
-            System.out.print(connection.toString());
+            System.out.println(connection.toString());
             return connection;
         } catch (NamingException e){
             e.printStackTrace();
