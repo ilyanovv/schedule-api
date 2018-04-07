@@ -31,39 +31,6 @@ public class DAO {
         return dbConnection.getConnection(username, password);
     }
 
-    //TODO: создать класс соединений и пул соединений
-//    private static final String
-//            HOST = System.getenv("OPENSHIFT_MYSQL_DB_HOST"),
-//            PORT = System.getenv("OPENSHIFT_MYSQL_DB_PORT"),
-//           // USERNAME = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME"),
-//           // PASSWORD = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD"),
-//            USERNAME = "root",
-//            PASSWORD = "root";
-//    public static final String DB_NAME = "scheduledb2";
-
-//    private static Connection getCon() throws ClassNotFoundException, SQLException {
-//        if (basicConnection == null) {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            Properties properties=new Properties();
-//            properties.setProperty("user",USERNAME);
-//            properties.setProperty("password",PASSWORD);
-//            /*
-//            настройки указывающие о необходимости конвертировать данные из Unicode
-//	        в UTF-8, который используется в нашей таблице для хранения данных
-//            */
-//            properties.setProperty("useUnicode","true");
-//            properties.setProperty("characterEncoding","UTF-8");
-//            //String url = "jdbc:mysql://" + HOST + ":" + PORT + "/" + DB_NAME;
-//            String url = "jdbc:mysql://mysql:3306/sampledb";
-//            basicConnection = DriverManager.getConnection(url, properties);
-//            System.out.println("Connected to MYDB");
-//            System.out.println(url);
-//        }
-//        return basicConnection;
-//    }
-
-
-
     public static ArrayList<Building> getAllBuildings()
             throws SQLException, ClassNotFoundException
     {
@@ -131,6 +98,7 @@ public class DAO {
             jsonArray.add(resultJson);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -149,6 +117,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return jsonArray;
     }
 
@@ -168,6 +137,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -188,6 +158,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -204,6 +175,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -224,6 +196,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -241,6 +214,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         return  jsonArray;
     }
 
@@ -299,6 +273,7 @@ public class DAO {
             jsonArray.add(jsonObject);
         }
         resultSet.close();
+        c.close();
         System.out.println("i = " + i);
         return jsonArray;
     }
@@ -319,6 +294,7 @@ public class DAO {
         resultSet.first();
         jsonArray.add(resultSet.getString("version"));
         resultSet.close();
+        c.close();
         return jsonArray;
     }
 }
