@@ -2,6 +2,9 @@ package schedule;
 
 import connection.DBConnection;
 import connection.context.Context;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.context.ApplicationContext;
 import restapi.DAO;
 import restapi.TimeDate;
@@ -35,13 +38,15 @@ public class UpdateClass {
 
         urlConnection.setRequestMethod("GET");
 
+        Integer version = getGlobalVersion(groupNumber);
+
         BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
         String inputLine;
         StringBuilder response = new StringBuilder();
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine).append("\n");
-            handleResponseLine(inputLine, groupNumber, connection);
+            handleResponseLine(inputLine, groupNumber, connection, version);
 
         }
         in.close();
@@ -52,7 +57,10 @@ public class UpdateClass {
     }
 
 
-    private static void handleResponseLine(String line, String groupNumber,  Connection connection) {
+    private static void handleResponseLine(String line,
+                                           String groupNumber,
+                                           Connection connection,
+                                           Integer globalVer) {
         try {
             String[] params = line.split("\t");
             Date date = TimeDate.getDate(params[0].trim().replace("\uFEFF", ""));
@@ -68,8 +76,7 @@ public class UpdateClass {
             String lessonType = params[7].trim();
 
 
-
-            String sqlCall = "{call " + DAO.DB_NAME + ".INIT_ADD_LESSON(?,?,?,?,?,?,?,?,?,?)}";
+            String sqlCall = "{call " + DAO.DB_NAME + ".INIT_ADD_LESSON(?,?,?,?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
             if (teacherLastName == null){
                 stmt.setNull("p_last_name", VARCHAR);
@@ -90,6 +97,7 @@ public class UpdateClass {
             stmt.setTime("p_time_begin", timeBegin);
             stmt.setTime("p_time_end", timeEnd);
             stmt.setDate("p_lesson_date", date);
+            stmt.setInt("p_global_ver", globalVer);
 
             int affRows = stmt.executeUpdate();
             stmt.close();
@@ -101,7 +109,26 @@ public class UpdateClass {
     }
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-        getScheduleForGroup("М8О-206Б-16");
+        //getScheduleForGroup("М8О-206Б-16");
         //getScheduleForGroup("МИО-107Бк-17");
+        getScheduleForGroup("М8О-208Б-16");
+        getScheduleForGroup("М8О-207Б-16");
+    }
+
+
+    private static Integer getGlobalVersion(String group) throws IOException {
+        String link  = "https://mai.ru/education/schedule/detail.php?group=" + group;
+
+        Document doc = Jsoup.connect(link).get();
+//        System.out.println(doc.toString());
+
+
+        Elements scheduleContent;
+        scheduleContent =  doc.select("div[id=schedule-content]");
+        System.out.println(scheduleContent.toString());
+
+        Elements version;
+        version = scheduleContent.select("div[style=float: right]");
+        return Integer.valueOf(version.text());
     }
 }

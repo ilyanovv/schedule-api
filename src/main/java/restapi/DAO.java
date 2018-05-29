@@ -95,6 +95,8 @@ public class DAO {
             resultJson.put("patronymic_name", resultSet.getString("patronymic_name"));
             resultJson.put("lesson_date", resultSet.getString("lesson_date"));
             resultJson.put("lesson_name", resultSet.getString("lesson_name"));
+            resultJson.put("is_local", resultSet.getInt("is_local"));
+            resultJson.put("global_ver", resultSet.getInt("global_ver"));
             jsonArray.add(resultJson);
         }
         resultSet.close();
@@ -261,6 +263,8 @@ public class DAO {
                 jsonObject.put("lesson_date", curLessonDate);
                 jsonObject.put("lesson_name", curLessonName);
                 jsonObject.put("record_id", resultSet.getString("record_id"));
+                jsonObject.put("is_local", resultSet.getInt("is_local"));
+                jsonObject.put("global_ver", resultSet.getInt("global_ver"));
                 jsonGroups.add(resultSet.getString("group_number"));
             }
             prevLessonName = curLessonName;
