@@ -30,11 +30,13 @@ class SQLQueries {
 
     static final String getAllGroups = "SELECT * \n" +
             "FROM group_tab x\n" +
-            "JOIN schedule_version_group y ON x.group_id = y.group_id";
+            "JOIN schedule_version_group y ON x.group_id = y.group_id " +
+            "ORDER BY group_number";
 
     static final String getGetAllTeachers = "SELECT * FROM teacher x \n" +
             "JOIN schedule_version_teacher y \n" +
-            "ON x.teacher_id = y.teacher_id";
+            "ON x.teacher_id = y.teacher_id " +
+            "ORDER BY last_name, first_name, patronymic_name";
 
     static final String getScheduleForTeacher = ""+
             "SELECT * FROM lesson JOIN \n" +
@@ -71,4 +73,6 @@ class SQLQueries {
     static final String getAllLessons = "SELECT * FROM lesson ORDER BY lesson_name";
     static final String getTeachers = "SELECT * FROM lesson_teacher x JOIN teacher y ON x.teacher_id = y.teacher_id " +
             "WHERE lesson_id = ? ORDER BY last_name";
+
+    static final String getAllLessonRooms = "SELECT * FROM lecture_room";
 }

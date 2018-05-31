@@ -21,8 +21,13 @@ public class LessonRoomsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("utf-8");
+            String arr = "";
             String buildingID = request.getParameter("buildingID");
-            String arr = DAO.getLessonRoomsJSON(buildingID).toString();
+            if (buildingID == null) {
+                arr = DAO.getAllLessonRoomsJSON().toString();
+            } else {
+                arr = DAO.getLessonRoomsJSON(buildingID).toString();
+            }
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             PrintWriter out = response.getWriter();
