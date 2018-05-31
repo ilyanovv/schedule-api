@@ -29,11 +29,11 @@ public class AddNewLessonServlet extends HttpServlet {
             Connection connection = DAO.getConnection(login, password);
             String sqlCall = "{call " + DAO.DB_NAME + ".ADD_LESSONS(?,?,?,?,?,?,?,?,?)}";
             CallableStatement stmt = connection.prepareCall(sqlCall);
-            stmt.setString("p_teacher_id", request.getParameter("teacher_id"));
-            stmt.setString("p_lesson_type_id", request.getParameter("lesson_type_id"));
-            stmt.setString("p_lesson_id", request.getParameter("lesson_id"));
-            stmt.setString("p_lecture_room_id", request.getParameter("lecture_room_id"));
-            stmt.setString("p_group_id", request.getParameter("group_id"));
+            stmt.setInt("p_teacher_id", Integer.valueOf(request.getParameter("teacher_id")));
+            stmt.setInt("p_lesson_type_id", Integer.valueOf(request.getParameter("lesson_type_id")));
+            stmt.setInt("p_lesson_id", Integer.valueOf(request.getParameter("lesson_id")));
+            stmt.setInt("p_lecture_room_id", Integer.valueOf(request.getParameter("lecture_room_id")));
+            stmt.setInt("p_group_id", Integer.valueOf(request.getParameter("group_id")));
             stmt.setTime("p_time_begin", TimeDate.getTime(request.getParameter("time_begin")));
             stmt.setTime("p_time_end", TimeDate.getTime(request.getParameter("time_end")));
             stmt.setDate("p_lesson_date", TimeDate.getDate(request.getParameter("lesson_date")));
