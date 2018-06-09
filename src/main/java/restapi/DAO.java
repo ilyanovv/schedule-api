@@ -4,14 +4,12 @@ package restapi;
 
 import connection.DBConnection;
 import connection.context.Context;
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.context.ApplicationContext;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Properties;
 
 
 /**
@@ -55,7 +53,7 @@ public class DAO {
     {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllBuildings);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_ALL_BUILDINGS);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
         {
@@ -77,7 +75,7 @@ public class DAO {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
        // String groupNumber = "8О-408Б";
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForGroup);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_SCHEDULE_FOR_GROUP);
         System.err.println(groupID);
         ps.setString(1, groupID);
         ResultSet resultSet = ps.executeQuery();
@@ -108,7 +106,7 @@ public class DAO {
     public static JSONArray getAllGroupsJSON() throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllGroups);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_ALL_GROUPS);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
@@ -127,7 +125,7 @@ public class DAO {
     public static JSONArray getAllTeachersJSON() throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getGetAllTeachers);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_ALL_TEACHERS);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
@@ -148,7 +146,7 @@ public class DAO {
     public static JSONArray getLessonRoomsJSON(final String buildingID) throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonRooms);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_LESSON_ROOMS);
         ps.setString(1, buildingID);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
@@ -169,7 +167,7 @@ public class DAO {
     public static JSONArray getAllLessonRoomsJSON() throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllLessonRooms);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_ALL_LESSON_ROOMS);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
@@ -188,7 +186,7 @@ public class DAO {
     public static JSONArray getLessonsJSON() throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getAllLessons);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_ALL_LESSONS);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
@@ -227,7 +225,7 @@ public class DAO {
     public static JSONArray getLessonTypesJSON() throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getLessonTypes);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_LESSON_TYPES);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()){
             JSONObject jsonObject = new JSONObject();
@@ -245,7 +243,7 @@ public class DAO {
             throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
         JSONArray jsonArray = new JSONArray();
-        PreparedStatement ps = c.prepareStatement(SQLQueries.getScheduleForTeacher);
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_SCHEDULE_FOR_TEACHER);
         ps.setString(1, teacherID);
         ResultSet resultSet = ps.executeQuery();
         String prevLessonName = " ";
@@ -310,9 +308,9 @@ public class DAO {
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps;
         if(userType.equals("teacher"))
-            ps = c.prepareStatement(SQLQueries.getTeacherDBVersion);
+            ps = c.prepareStatement(SQLQueries.GET_TEACHER_DB_VERSION);
         else
-            ps = c.prepareStatement(SQLQueries.getGroupDBVersion);
+            ps = c.prepareStatement(SQLQueries.GET_GROUP_DB_VERSION);
         ps.setString(1, ID);
         ResultSet resultSet = ps.executeQuery();
         resultSet.first();
@@ -320,5 +318,18 @@ public class DAO {
         resultSet.close();
         c.close();
         return jsonArray;
+    }
+
+    public static String getGroupNumber(final String groupId)
+            throws SQLException, ClassNotFoundException {
+        Connection c = dbConnection.getConnection();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_GROUP_NUMBER_BY_ID);
+        ps.setString(1, groupId);
+        ResultSet resultSet = ps.executeQuery();
+        resultSet.first();
+        String groupNumber = resultSet.getString("group_number");
+        resultSet.close();
+        c.close();
+        return groupNumber;
     }
 }

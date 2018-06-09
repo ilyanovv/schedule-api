@@ -19,11 +19,6 @@ public class BuildingsServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*try {
-            request.setAttribute("buildings_list", DAO.getAllBuildings());
-        } catch (SQLException   | ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
 
             try {
                 String arr = DAO.getAllBuildingsJSON().toString();
