@@ -1,23 +1,19 @@
 package excel;
 
 import javafx.util.Pair;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import restapi.DAO;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 public class ExcelCreator {
+    private static final int COLUMN_COUNT = 8;
     private Workbook workbook;
 
     public ExcelCreator() {
@@ -26,10 +22,42 @@ public class ExcelCreator {
 
     public Workbook create(String sheetName) throws SQLException, ClassNotFoundException {
         Sheet sheet = workbook.createSheet(sheetName);
+        createFirstRow(sheet);
+
         for (Pair<String, String> group : getAllGroups()) {
             writeScheduleForGroup(sheet, group);
         }
+//        for (int i = 0; i < COLUMN_COUNT; i++) {
+//            sheet.autoSizeColumn(i);
+//        }
         return workbook;
+    }
+
+    private void createFirstRow(Sheet sheet) {
+        Row row = sheet.createRow(sheet.getPhysicalNumberOfRows());
+        CellStyle style = workbook.createCellStyle();
+        Font font = workbook.createFont();
+        font.setFontName(HSSFFont.FONT_ARIAL);
+        font.setFontHeightInPoints((short)10);
+        font.setBold(true);
+        style.setFont(font);
+
+        row.createCell(0).setCellValue("Номер группы");
+        row.getCell(0).setCellStyle(style);
+        row.createCell(1).setCellValue("Дата");
+        row.getCell(1).setCellStyle(style);
+        row.createCell(2).setCellValue("Начало");
+        row.getCell(2).setCellStyle(style);
+        row.createCell(3).setCellValue("Конец");
+        row.getCell(3).setCellStyle(style);
+        row.createCell(4).setCellValue("Предмет");
+        row.getCell(4).setCellStyle(style);
+        row.createCell(5).setCellValue("ФИО преподавателя");
+        row.getCell(5).setCellStyle(style);
+        row.createCell(6).setCellValue("Аудитория");
+        row.getCell(6).setCellStyle(style);
+        row.createCell(7).setCellValue("Тип занятия");
+        row.getCell(7).setCellStyle(style);
     }
 
     private void writeScheduleForGroup(Sheet sheet, Pair<String, String> group)

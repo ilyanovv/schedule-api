@@ -18,7 +18,7 @@ public class SQLQueries {
             "   \t \tSELECT group_tab.group_number, time_begin, time_end, lesson_type.lesson_type_name, lecture_room.lecture_room_number, \n" +
             "\t\tx.discipline_id, lecture_room.building_id as bid, x.discipline_id as did, x.lesson_date, x.record_id, x.is_local, x.global_ver \n" +
             "\t\tFROM schedule_tab AS x\n" +
-            "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND group_tab.group_id = ? \n" +
+            "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND group_tab.group_id = ? AND x.global_ver = ?\n" +
             "\t\t\tJOIN lesson_type ON lesson_type.lesson_type_id = x.lesson_type_id\n" +
             "\t\t\tJOIN lesson_time ON x.time_id = lesson_time.time_id\n" +
             "\t\t\tLEFT JOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
@@ -52,7 +52,7 @@ public class SQLQueries {
             "   \t \tSELECT group_tab.group_number, time_begin, time_end, lesson_type.lesson_type_name, lecture_room.lecture_room_number, \n" +
             "\t\tx.discipline_id, lecture_room.building_id as bid, x.discipline_id as did, x.lesson_date, x.record_id, x.is_local, x.global_ver \n" +
             "\t\tFROM schedule_tab AS x\n" +
-            "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id\n" +
+            "\t\t\tJOIN group_tab ON x.group_id = group_tab.group_id AND x.global_ver = ?\n" +
             "\t\t\tJOIN lesson_type ON lesson_type.lesson_type_id = x.lesson_type_id\n" +
             "\t\t\tJOIN lesson_time ON x.time_id = lesson_time.time_id\n" +
             "\t\t\tLEFT JOIN lecture_room ON lecture_room.lecture_room_id = x.lecture_room_id) AS y\n" +
@@ -77,4 +77,9 @@ public class SQLQueries {
     public static final String GET_ALL_LESSON_ROOMS = "SELECT * FROM lecture_room";
 
     public static final String GET_GROUP_NUMBER_BY_ID = "SELECT group_number FROM group_tab WHERE group_id = ?";
+
+    public static final String GET_MAX_GLOBAL_VER_GROUP = "SELECT MAX(global_ver) as max_gv FROM schedule_tab WHERE group_id = ?";
+
+    public static final String GET_MAX_GLOBAL_VER_TEACHER = "SELECT MAX(global_ver) as max_gv FROM schedule_tab WHERE teacher_id = ?";
+
 }

@@ -4,6 +4,7 @@ import connection.DBConnection;
 import connection.context.Context;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.context.ApplicationContext;
 import restapi.DAO;
@@ -16,6 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.sql.Types.VARCHAR;
 
@@ -28,7 +31,6 @@ public class UpdateClass {
     public static void getScheduleForGroup(String groupNumber)
             throws IOException, SQLException, ClassNotFoundException {
         Connection connection = dbConnection.getConnection("root", "root");
-
         String url = "https://mai.ru/education/schedule/data/" + groupNumber + ".txt";
 
         URL obj = new URL(url);
@@ -69,9 +71,9 @@ public class UpdateClass {
             String lesson = params[4].trim();
             String teacher = params[5].equals("") ? null : params[5].trim();
             String[] teacherData = teacher != null ? teacher.split("\\s+", 3) : null;
-            String teacherFirstName = teacherData != null ? teacherData[1] : null;
+            String teacherFirstName = teacherData != null ? teacherData.length >= 2 ? teacherData[1] : null : null;
             String teacherLastName = teacherData != null ? teacherData[0] : null;
-            String teacherPatronymicName = teacherData != null ? teacherData[2] : null;
+            String teacherPatronymicName = teacherData != null ? teacherData.length == 3 ? teacherData[2] : null : null;
             String lessonRoom = params[6].equals("") ? null : params[6].trim();
             String lessonType = params[7].trim();
 
@@ -111,8 +113,21 @@ public class UpdateClass {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         //getScheduleForGroup("М8О-206Б-16");
         //getScheduleForGroup("МИО-107Бк-17");
-        getScheduleForGroup("М8О-208Б-16");
-        getScheduleForGroup("М8О-207Б-16");
+//        getScheduleForGroup("М8О-208Б-16");
+//        getScheduleForGroup("М8О-207Б-16");
+        List<String> groups = getAllGroups();
+
+       // boolean exec = false;
+        for (String group : groups) {
+//            if (group.equals("5О-424Б-14")) {
+//                exec = true;
+//            }
+            group = group.replace(" ","%20");
+
+            //if (exec)
+                getScheduleForGroup(group);
+            System.out.println("DONE : " + group);
+        }
     }
 
 
@@ -129,6 +144,19 @@ public class UpdateClass {
 
         Elements version;
         version = scheduleContent.select("div[style=float: right]");
-        return Integer.valueOf(version.text());
+        return Integer.valueOf(version.text().replace("v", ""));
+    }
+
+
+    private static List<String> getAllGroups() throws IOException {
+        List<String> groupsList = new ArrayList<>();
+        String link  = "https://mai.ru/education/schedule/";
+        Document doc = Jsoup.connect(link).get();
+        Elements groups = doc.getElementsByClass("sc-group-item");
+        for (Element group : groups) {
+            groupsList.add(group.text());
+        }
+
+        return groupsList;
     }
 }

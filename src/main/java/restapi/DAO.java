@@ -73,11 +73,14 @@ public class DAO {
             throws SQLException, ClassNotFoundException
     {
         Connection c = dbConnection.getConnection();
+        String globalVer = getMaxGlobalVerGroup(groupID);
+
         JSONArray jsonArray = new JSONArray();
        // String groupNumber = "8О-408Б";
         PreparedStatement ps = c.prepareStatement(SQLQueries.GET_SCHEDULE_FOR_GROUP);
         System.err.println(groupID);
         ps.setString(1, groupID);
+        ps.setString(2, globalVer);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next())
         {
@@ -242,9 +245,12 @@ public class DAO {
     public static JSONArray getTeachersScheduleJSON(final String teacherID)
             throws SQLException, ClassNotFoundException {
         Connection c = dbConnection.getConnection();
+        String globalVer = getMaxGlobalVerTeacher(teacherID);
+
         JSONArray jsonArray = new JSONArray();
         PreparedStatement ps = c.prepareStatement(SQLQueries.GET_SCHEDULE_FOR_TEACHER);
-        ps.setString(1, teacherID);
+        ps.setString(1, globalVer);
+        ps.setString(2, teacherID);
         ResultSet resultSet = ps.executeQuery();
         String prevLessonName = " ";
         String prevLessonType = " ";
@@ -328,6 +334,34 @@ public class DAO {
         ResultSet resultSet = ps.executeQuery();
         resultSet.first();
         String groupNumber = resultSet.getString("group_number");
+        resultSet.close();
+        c.close();
+        return groupNumber;
+    }
+
+    public static String getMaxGlobalVerGroup(final String groupId)
+            throws SQLException, ClassNotFoundException {
+        Connection c = dbConnection.getConnection();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_MAX_GLOBAL_VER_GROUP);
+        ps.setString(1, groupId);
+        ResultSet resultSet = ps.executeQuery();
+        resultSet.first();
+        String groupNumber = resultSet.getString("max_gv");
+        resultSet.close();
+        c.close();
+        return groupNumber;
+    }
+
+
+    //FIXME: это костыль
+    public static String getMaxGlobalVerTeacher(final String teacherId)
+            throws SQLException, ClassNotFoundException {
+        Connection c = dbConnection.getConnection();
+        PreparedStatement ps = c.prepareStatement(SQLQueries.GET_MAX_GLOBAL_VER_GROUP);
+        ps.setString(1, "500");
+        ResultSet resultSet = ps.executeQuery();
+        resultSet.first();
+        String groupNumber = resultSet.getString("max_gv");
         resultSet.close();
         c.close();
         return groupNumber;
